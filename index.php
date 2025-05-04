@@ -11,6 +11,33 @@
             <div class="logo"></div>
         </div>
     </header>
-    <main class="container"></main>
+    <main class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">項目</th>
+                    <th scope="col">値段（円）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>所持金</td>
+                    <td>2万1000</td>
+                </tr>
+                <tr>
+                    <td>みずほ銀行</td>
+                    <td>39万5000</td>
+                </tr>
+                <tr>
+                    <td>足利銀行</td>
+                    <td>20万1000</td>
+                </tr>
+                <tr>
+                    <td>カード</td>
+                    <td>5万1000</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>
