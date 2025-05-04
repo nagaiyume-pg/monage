@@ -11,5 +11,6 @@
             <div class="logo"></div>
         </div>
     </header>
+    <main class="container"></main>
 </body>
 </html>
