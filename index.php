@@ -6,6 +6,10 @@
     <title>Monage</title>
 </head>
 <body>
-
+    <header class="header">
+        <div class="header__container">
+            <div class="logo"></div>
+        </div>
+    </header>
 </body>
 </html>
