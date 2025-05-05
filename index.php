@@ -40,6 +40,22 @@
                 </tbody>
             </table>
         </section>
+        <section>
+            <table>
+                <thead>
+                    <tr>
+                        <th>項目</th>
+                        <th>値段（円）</th>
+                        <th>出どころ</th>
+                        <th>登録日</th>
+                        <th>最終更新日</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </section>
     </main>
 </body>
 </html>
