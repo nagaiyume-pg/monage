@@ -52,7 +52,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    <tr>
+                        <td>カラオケ</td>
+                        <td>1000</td>
+                        <td>銀行残高</td>
+                        <td>2024年10月10月</td>
+                        <td>2025年11月11日</td>
+                    </tr>
                 </tbody>
             </table>
         </section>
