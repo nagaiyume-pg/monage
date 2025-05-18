@@ -335,14 +335,6 @@ SET name = 'Adobe購入', price = 12000
 WHERE id = 1
 ```
 
-論理削除
-
-```sql
-UPDATE expenses
-SET deleted_flag = TRUE
-WHERE id = 1;
-```
-
 SELECT（全件）
 
 ```sql
@@ -354,6 +346,14 @@ SELECT（条件付き：未削除かつ特定のbudget_id）
 ```sql
 SELECT * FROM expenses
 WHERE budget_id = 1 AND deleted_flag = FALSE;
+```
+
+論理削除
+
+```sql
+UPDATE expenses
+SET deleted_flag = TRUE
+WHERE id = 1;
 ```
 
 物理削除
