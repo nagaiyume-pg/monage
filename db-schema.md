@@ -81,7 +81,6 @@
 ## 4. ER図
 
 ```mermaid
-
 erDiagram
     assets {
         INT id PK "資産ID（自動採番）"
@@ -113,7 +112,6 @@ erDiagram
     budgets }o--|| assets : "assetsに属する"
     expenses }o--|| assets : "assetsに属する"
     expenses }o--|| budgets : "budgetsに属する"
-    BOOLEAN deleted_flag "削除フラッグ"
 
 ```
 
