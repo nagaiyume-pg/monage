@@ -147,21 +147,23 @@ erDiagram
 
 ## 6. クエリ文の例
 
-### monageデータベース
+### monage（monageデータベース）
 
-monageデータベースの作成
+CREATE
 
 ```sql
 CREATE DATABASE monage;
 ```
 
-monageデータベースの削除
+DROP
 
 ```sql
 DROP DATABASE monage;
 ```
 
-### assetsテーブルの作成
+### assets（資産テーブル）
+
+CREATE
 
 ```sql
 CREATE TABLE assets (
@@ -174,13 +176,57 @@ CREATE TABLE assets (
 );
 ```
 
-### assetsテーブルの削除
+INSERT
+
+```sql
+INSERT INTO assets (name, price)
+VALUES ('ノートパソコン', 150000);
+```
+
+UPDATE（名前と価格を変更）
+
+```sql
+UPDATE assets
+SET name = 'ゲーミングPC', price = 200000
+WHERE id = 1;
+```
+
+SELECT（全件）
+
+```sql
+SELECT * FROM assets;
+```
+
+SELECT（条件付き、未削除データのみ）
+
+```
+SELECT * FROM assets
+WHERE deleted_flag = FALSE;
+```
+
+論理削除（deleted_flag を TRUE に）
+
+```sql
+DELETE FROM assets
+WHERE id = 1;
+```
+
+物理削除
+
+```sql
+DELETE FROM assets
+WHERE id = 1;
+```
+
+完全削除
 
 ```sql
 DROP TABLE IF EXISTS assets;
 ```
 
-### budgetsテーブルの作成
+### budgets（予算テーブル）
+
+CREATE
 
 ```sql
 CREATE TABLE budgets (
@@ -199,13 +245,56 @@ CREATE TABLE budgets (
 );
 ```
 
-### budgetsテーブルの削除
+INSERT
+
+```sql
+INSERT INTO budgets (asset_id, name, price)
+VALUES (1, '開発予算', 50000);
+```
+
+UPDATE（名前と価格を変更）
+```sql
+UPDATE budgets
+SET name = '研究開発費', price = 60000
+WHERE id = 1;
+```
+
+SELECT（全件）
+
+```sql
+SELECT * FROM budgets;
+```
+
+SELECT（特定資産IDかつ未削除）
+```sql
+SELECT * FROM budgets
+WHERE asset_id = 1 AND deleted_flag = FALSE;
+```
+
+論理削除
+
+```sql
+UPDATE budgets
+SET deleted_flag = TRUE
+WHERE id = 1;
+```
+
+物理削除
+
+```sql
+DELETE FROM budgets
+WHERE id = 1;
+```
+
+完全削除
 
 ```sql
 DROP TABLE IF EXISTS budgets;
 ```
 
-### expenseテーブルの作成
+### expens（支出テーブル）
+
+CREATE
 
 ```sql
 CREATE TABLE expenses (
@@ -231,7 +320,50 @@ CREATE TABLE expenses (
 );
 ```
 
-### expensesテーブルの削除
+INSERT
+
+```sql
+INSERT INTO expenses (asset_id, budget_id, name, price)
+VALUES (1, 1, 'ソフトウェア購入', 10000);
+```
+
+UPDATE（支出名と価格を変更）
+
+```sql
+UPDATE expenses
+SET name = 'Adobe購入', price = 12000
+WHERE id = 1
+```
+
+論理削除
+
+```sql
+UPDATE expenses
+SET deleted_flag = TRUE
+WHERE id = 1;
+```
+
+SELECT（全件）
+
+```sql
+SELECT * FROM expenses;
+```
+
+SELECT（条件付き：未削除かつ特定のbudget_id）
+
+```sql
+SELECT * FROM expenses
+WHERE budget_id = 1 AND deleted_flag = FALSE;
+```
+
+物理削除
+
+```sql
+DELETE FROM expenses
+WHERE id = 1;
+```
+
+完全削除
 
 ```sql
 DROP TABLE IF EXISTS expenses;
