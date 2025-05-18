@@ -147,13 +147,15 @@ erDiagram
 
 ## 6. クエリ文の例
 
-### monageデータベースの作成
+### monageデータベース
+
+monageデータベースの作成
 
 ```sql
 CREATE DATABASE monage;
 ```
 
-### monageデータベースの削除
+monageデータベースの削除
 
 ```sql
 DROP DATABASE monage;
