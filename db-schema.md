@@ -30,25 +30,26 @@
 
 ### assets（資産テーブル）
 
-| カラム名     | データ型       | NOT NULL | 主キー | デフォルト                                           | その他制約 | 説明                            |
-| ------------ | -------------- | -------- | ------ | ---------------------------------------------------- | ---------- | ------------------------------- |
-| `id`         | `INT UNSIGNED` | YES      | YES    | `AUTO_INCREMENT`                                     |            | 資産ID（自動採番）              |
-| `name`       | `VARCHAR(100)` | YES      |        |                                                      | `UNIQUE`   | 資産名（最大100文字、重複不可） |
-| `price`      | `INT UNSIGNED` | YES      |        |                                                      |            | 値段（円・整数）                |
-| `updated_at` | `DATETIME`     | YES      |        | `CURRENT_TIMESTAMP`<br>`ON UPDATE CURRENT_TIMESTAMP` |            | 最終更新日時（自動更新）        |
+| カラム名       | データ型       | NOT NULL | 主キー | デフォルト                                           | その他制約 | 説明                            |
+| -------------- | -------------- | -------- | ------ | ---------------------------------------------------- | ---------- | ------------------------------- |
+| `id`           | `INT UNSIGNED` | YES      | YES    | `AUTO_INCREMENT`                                     |            | 資産ID（自動採番）              |
+| `name`         | `VARCHAR(100)` | YES      |        |                                                      | `UNIQUE`   | 資産名（最大100文字、重複不可） |
+| `price`        | `INT UNSIGNED` | YES      |        |                                                      |            | 値段（円・整数）                |
+| `updated_at`   | `DATETIME`     | YES      |        | `CURRENT_TIMESTAMP`<br>`ON UPDATE CURRENT_TIMESTAMP` |            | 最終更新日時（自動更新）        |
+| `deleted_flag` | `BOOLEAN`      | YES      |        | `FALSE`                                              |            | 削除フラッグ                    |
 
 ---
 
 ### budgets（予算テーブル）
 
-| カラム名     | データ型       | NOT NULL | 主キー | 外部キー                      | デフォルト                                           | その他制約                                 | 説明                  |
-| ------------ | -------------- | -------- | ------ | ----------------------------- | ---------------------------------------------------- | ------------------------------------------ | --------------------- |
-| `id`         | `INT UNSIGNED` | YES      | YES    |                               | `AUTO_INCREMENT`                                     |                                            | 予算ID（自動採番）    |
-| `asset_id`   | `INT UNSIGNED` | YES      |        | `REFERENCES assets(asset_id)` |                                                      | `ON DELETE CASCADE`<br>`ON UPDATE CASCADE` | 資産ID（外部キー）    |
-| `name`       | `VARCHAR(100)` | YES      |        |                               |                                                      | `UNIQUE`                                   | 予算名（最大100文字） |
-| `price`      | `INT UNSIGNED` | YES      |        |                               |                                                      |                                            | 値段（円・整数）      |
-| `updated_at` | `DATETIME`     | YES      |        |                               | `CURRENT_TIMESTAMP`<br>`ON UPDATE CURRENT_TIMESTAMP` |                                            | 最終更新日時          |
-
+| カラム名       | データ型       | NOT NULL | 主キー | 外部キー                      | デフォルト                                           | その他制約                                 | 説明                  |
+| -------------- | -------------- | -------- | ------ | ----------------------------- | ---------------------------------------------------- | ------------------------------------------ | --------------------- |
+| `id`           | `INT UNSIGNED` | YES      | YES    |                               | `AUTO_INCREMENT`                                     |                                            | 予算ID（自動採番）    |
+| `asset_id`     | `INT UNSIGNED` | YES      |        | `REFERENCES assets(asset_id)` |                                                      | `ON DELETE CASCADE`<br>`ON UPDATE CASCADE` | 資産ID（外部キー）    |
+| `name`         | `VARCHAR(100)` | YES      |        |                               |                                                      | `UNIQUE`                                   | 予算名（最大100文字） |
+| `price`        | `INT UNSIGNED` | YES      |        |                               |                                                      |                                            | 値段（円・整数）      |
+| `updated_at`   | `DATETIME`     | YES      |        |                               | `CURRENT_TIMESTAMP`<br>`ON UPDATE CURRENT_TIMESTAMP` |                                            | 最終更新日時          |
+| `deleted_flag` | `BOOLEAN`      | YES      |        |                               | `FALSE`                                              |                                            | 削除フラッグ          |
 
 ---
 
@@ -63,10 +64,21 @@
 | `price`      | `INT UNSIGNED` | YES      |        |                                 |                                                      |                                            | 値段（円・整数）      |
 | `created_at` | `DATETIME`     | YES      |        |                                 | `CURRENT_TIMESTAMP`                                  |                                            | 登録日時              |
 | `updated_at` | `DATETIME`     | YES      |        |                                 | `CURRENT_TIMESTAMP`<br>`ON UPDATE CURRENT_TIMESTAMP` |                                            | 最終更新日時          |
+| `deleted_flag` | `BOOLEAN`      | YES      |        |                               | `FALSE`                                              |                                            | 削除フラッグ          |
 
 ---
 
-## 3. ER図
+## 3. リレーション定義
+
+| リレーション                         | 関係       | 説明                                    |
+| ------------------------------------ | ---------- | --------------------------------------- |
+| `assets.id` → `budgets.asset_id`    | 1対多 (1\:N) | 1つの資産に対して複数の予算が関連づく |
+| `assets.id` → `expenses.asset_id`   | 1対多 (1\:N) | 1つの資産に対して複数の支出が関連づく |
+| `budgets.id` → `expenses.budget_id` | 1対多 (1\:N) | 1つの予算に対して複数の支出が関連づく |
+
+---
+
+## 4. ER図
 
 ```mermaid
 
@@ -76,6 +88,7 @@ erDiagram
         VARCHAR(100) name "資産名（重複不可）"
         INT price "値段（円・整数）"
         DATETIME updated_at "最終更新日時"
+        BOOLEAN deleted_flag "削除フラッグ"
     }
 
     budgets {
@@ -84,6 +97,7 @@ erDiagram
         VARCHAR(100) name "予算名（重複不可）"
         INT price "値段（円・整数）"
         DATETIME updated_at "最終更新日時"
+        BOOLEAN deleted_flag "削除フラッグ"
     }
 
     expenses {
@@ -93,98 +107,132 @@ erDiagram
         VARCHAR(100) name "支出名（重複不可）"
         INT price "値段（円・整数）"
         DATETIME updated_at "最終更新日時"
+        BOOLEAN deleted_flag "削除フラッグ"
     }
 
     budgets }o--|| assets : "assetsに属する"
     expenses }o--|| assets : "assetsに属する"
     expenses }o--|| budgets : "budgetsに属する"
+    BOOLEAN deleted_flag "削除フラッグ"
 
 ```
 
-## 4. リレーション定義
+---
 
-| リレーション              | 関係        | 説明                          |
-| ------------------------- | ----------- | ----------------------------- |
-| users.id → tasks.user_id | 1対多 (1:N) | 1ユーザーが複数のタスクを持つ |
+## 5. テーブルのデータ例
+
+### assets（資産テーブル）
+
+| id | name         | price   | updated_at          | deleted_flag |
+| -- | ------------ | ------- | --------------------| ------------ |
+|  1 | `所持金`     | 21,000  | 2025-05-01 09:00:00 | FALSE        |
+|  2 | `足利銀行`   | 10,000  | 2025-05-02 10:00:00 | FALSE        |
+|  3 | `みずほ銀行` | 210,000 | 2025-05-03 11:00:00 | FALSE        |
+
+### budgets（予算テーブル）
+
+| id | asset_id | name | price   | updated_at          | deleted_flag |
+| -- | -------- | ---- | ------- | ------------------- | ------------ |
+|  1 |        1 | 家賃 | 100,000 | 2025-05-01 09:00:00 | FALSE        |
+|  2 |        1 | 食費 | 20,000  | 2025-05-02 11:00:00 | FALSE        |
+|  3 |        2 | 趣味 | 10,000  | 2025-05-03 12:00:00 | FALSE        |
+
+### expenses（支出テーブル）
+
+| id | asset_id | budget_id | name           | price   | updated_at          | deleted_flag |
+| -- | -------- | --------- | -------------- | ------- | ------------------- | ------------ |
+|  1 |        1 |         1 | ラーメン       | 100,000 | 2025-05-01 09:00:00 | FALSE        |
+|  2 |        1 |         1 | リンゴジュース | 20,000  | 2025-05-02 11:00:00 | FALSE        |
+|  3 |        2 |         2 | グミ           | 10,000  | 2025-05-03 12:00:00 | FALSE        |
 
 ---
 
-## 5. インデックス・制約
+## 6. クエリ文の例
 
-### users テーブル
-
-- `PRIMARY KEY (id)`
-- `UNIQUE (email)`
-
-### tasks テーブル
-
-- `PRIMARY KEY (id)`
-- `FOREIGN KEY (user_id) REFERENCES users(id)`
-
----
-
-## 6. 論理削除フラグについて
-
-- `deleted` カラムを全テーブルに追加し、削除処理は論理削除で対応します。
-- 削除状態のレコードは `deleted = TRUE`。
-- 有効なデータ取得時は `WHERE deleted = FALSE` を条件に含める。
-
----
-
-## 7. クエリ文の例
-
-### INSERT
+### monageデータベースの作成
 
 ```sql
-INSERT INTO users (name, email, password)
-VALUES ('山田太郎', 'taro@example.com', 'hashedpassword');
+CREATE DATABASE monage;
 ```
 
-### SELECT（論理削除考慮）
+### monageデータベースの削除
 
 ```sql
-SELECT * FROM tasks
-WHERE user_id = 1 AND deleted = FALSE
-ORDER BY due_date ASC;
+DROP DATABASE monage;
 ```
 
-### 論理削除
+### assetsテーブルの作成
 
 ```sql
-UPDATE users
-SET deleted = TRUE
-WHERE id = 3;
+CREATE TABLE assets (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    price INT UNSIGNED NOT NULL,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_flag BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (id)
+);
 ```
 
-## 8. 備考・運用ルール
+### assetsテーブルの削除
 
-パスワードはハッシュ化（bcrypt推奨）
+```sql
+DROP TABLE IF EXISTS assets;
+```
 
-作成・更新日時は created_at, updated_at で記録（必要なら deleted_at も）
+### budgetsテーブルの作成
 
-クエリは原則 deleted = FALSE を条件に含めること
+```sql
+CREATE TABLE budgets (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    asset_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    price INT UNSIGNED NOT NULL,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_flag BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_budgets_asset
+        FOREIGN KEY (asset_id)
+        REFERENCES assets(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+```
 
-ENUMカラムはマスターテーブル化も検討可能
+### budgetsテーブルの削除
 
----
+```sql
+DROP TABLE IF EXISTS budgets;
+```
 
-## 9. テーブルのデータ例
+### expenseテーブルの作成
 
-### 📄 users（ユーザーテーブル）
+```sql
+CREATE TABLE expenses (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    asset_id INT UNSIGNED NOT NULL,
+    budget_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    price INT UNSIGNED NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_flag BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_expenses_asset
+        FOREIGN KEY (asset_id)
+        REFERENCES assets(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_expenses_budget
+        FOREIGN KEY (budget_id)
+        REFERENCES budgets(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+```
 
-| id | name      | email              | password         | deleted | created_at          |
-|----|-----------|--------------------|------------------|---------|---------------------|
-| 1  | 山田太郎  | taro@example.com   | hashed_abc123    | FALSE   | 2025-05-01 09:00:00 |
-| 2  | 鈴木花子  | hanako@example.com | hashed_xyz789    | FALSE   | 2025-05-02 10:00:00 |
-| 3  | 渡辺健    | ken@example.com    | hashed_aaa111    | TRUE    | 2025-05-03 11:00:00 |
+### expensesテーブルの削除
 
----
-
-### 📄 tasks（タスクテーブル）
-
-| id | user_id | title                | description        | status | due_date   | deleted | created_at          |
-|----|---------|----------------------|--------------------|--------|------------|---------|---------------------|
-| 1  | 1       | 買い物               | スーパーで食材購入 | todo   | 2025-05-15 | FALSE   | 2025-05-10 09:30:00 |
-| 2  | 1       | 本を読む             | 技術書1章〜3章まで | doing  | 2025-05-12 | FALSE   | 2025-05-10 10:00:00 |
-| 3  | 2       | 散歩                 | 朝の運動           | done   | 2025-05-11 | FALSE   | 2025-05-10 07:00:00 |
-| 4  | 3       | プロジェクト資料作成 | クライアント用     | todo   | 2025-05-20 | TRUE    | 2025-05-09 20:00:00 |
+```sql
+DROP TABLE IF EXISTS expenses;
+```
