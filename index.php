@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Monage</title>
-        <link rel="stylesheet" href="./assets/css/style.css">
+        <link rel="stylesheet" href="./assets/styles/style.css">
     </head>
     <body class="page">
 
@@ -20,54 +20,65 @@
 
             <!-- 資産一覧表 -->
             <section class="assets-list" id="assets-list">
-                <!-- タイトル -->
-                <h2 class="assets-list__title">資産一覧表</h2>
+                <!-- ヘッダー -->
+                <header class="assets-list__header">
+                    <!-- タイトル -->
+                    <h2 class="assets-list__title">資産一覧表</h2>
+                    <!-- ボタングループ -->
+                    <div class="assets-list__button-group">
+                        <!-- 項目追加追加 -->
+                        <button class="assets-list__button">
+                            <img class="assets-list__button-icon" src="./assets/images/icon-add.svg">
+                            <span class="assets-list__button-label">項目を追加</span>
+                        </button>
+                    </div>
+                </header>
                 <!-- 表 -->
                 <table class="assets-list__table">
                     <!-- 見出し -->
-                    <thead class="assets-list__head">
-                        <tr class="assets-list__row assets-list__row--head">
+                    <thead class="assets-list__table-head">
+                        <tr class="assets-list__table-row assets-list__table-row--head">
                             <!-- チェックボックス -->
-                            <th class="assets-list__heading">
-                                <input class="assets-list__checkbox" type="checkbox" name="assets-list__all" id="assets-list__all">
+                            <th class="assets-list__table-heading">
+                                <input class="assets-list__table-checkbox" type="checkbox" name="assets-list__table-all" id="assets-list__table-all">
                             </th>
                             <!-- 項目 -->
-                            <th class="assets-list__heading">項目</th>
+                            <th class="assets-list__table-heading">項目</th>
                             <!-- 値段 -->
-                            <th class="assets-list__heading">値段</th>
+                            <th class="assets-list__table-heading">値段</th>
                             <!-- 最終更新美 -->
-                            <th class="assets-list__heading">最終更新日</th>
+                            <th class="assets-list__table-heading">最終更新日</th>
                             <!-- 操作 -->
-                            <th class="assets-list__heading">操作</th>
+                            <th class="assets-list__table-heading">操作</th>
                         </tr>
                     </thead>
                     <!-- 表本体 -->
-                    <tbody class="assets-list__body">
+                    <tbody class="assets-list__table-body">
                         <?php for($i = 0; $i<3; $i++): ?>
                         <!-- 行 -->
-                        <tr class="assets-list__row">
+                        <tr class="assets-list__table-row">
                             <!-- チェックボックス -->
-                            <td class="assets-list__data assets-list__data--checkbox">
-                                <input class="assets-list__checkbox" type="checkbox" name="" id="">
+                            <td class="assets-list__table-data assets-list__table-data--checkbox">
+                                <input class="assets-list__table-checkbox" type="checkbox" name="assets-list__table-checkbox" id="assets-list__table-checkbox">
                             </td>
                             <!-- 項目 -->
-                            <td class="assets-list__data">所持金</td>
+                            <td class="assets-list__table-data">所持金</td>
                             <!-- 値段 -->
-                            <td class="assets-list__data">2万1000円</td>
+                            <td class="assets-list__table-data">2万1000円</td>
                             <!-- 最終更新日 -->
-                            <td class="assets-list__data">2025年01月24日</td>
+                            <td class="assets-list__table-data">2025年01月24日</td>
                             <!-- ボタングループ -->
-                            <td class="assets-list__data assets-list__data--operation">
-                                <div class="assets-list__button-group">
+                            <td class="assets-list__table-data assets-list__table-data--operation">
+                                <div class="assets-list__action-buttons">
                                     <!-- 編集ボタン -->
-                                    <button class="assets-list__button">
-                                        <img class="assets-list__button--icon" src="./assets/images/icon_edit.svg" alt="">
-                                        <span class="assets-list__button--label">編集</span>
+                                    <button class="assets-list__action-button">
+                                        <img class="assets-list__action-icon" src="./assets/images/icon_edit.svg" alt="">
+                                        <span class="assets-list__action-label">編集</span>
                                     </button>
                                     <!-- 削除ボタン -->
-                                    <button class="assets-list__button">
-                                        <img class="assets-list__button--icon" src="./assets/images/icon_delete.svg" alt="">
-                                        <span class="assets-list__button--label">削除</span>
+                                    <button class="assets-list__action-button">
+                                        <img class="assets-list__action-icon" src="./assets/images/icon_delete.svg" alt="">
+                                        <span class="assets-list__action-label">削除</span>
                                     </button>
                                 </div>
                             </td>
