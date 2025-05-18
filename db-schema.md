@@ -368,3 +368,7 @@ WHERE id = 1;
 ```sql
 DROP TABLE IF EXISTS expenses;
 ```
+
+---
+
+TODO 並び替え用のテーブルを作成する
