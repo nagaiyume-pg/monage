@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # index.php や 既存ファイル・ディレクトリは無視
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # 残りすべてのリクエストを index.php に渡す
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>

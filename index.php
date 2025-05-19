@@ -1,3 +1,10 @@
+<?php
+    print_r(value: $_SERVER['REQUEST_URI']);
+
+    if(print_r(value: $_SERVER['REQUEST_URI']) == '/monage/create/') {
+        echo 'create';
+    }
+?>
 <!DOCTYPE html>
 <html lang="ja">
     <head>
@@ -9,11 +16,12 @@
     <body class="page">
 
         <!-- ヘッダー -->
+        <!--
         <header class="site-header">
             <div class="site-header__container">
                 <span class="site-header__logo">Monage</span>
             </div>
-        </header>
+        </header>-->
 
         <!-- メインコンテンツ -->
         <main class="main-content">
